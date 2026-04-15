@@ -25,7 +25,7 @@ set -eu
 : "${CHECK_INTERVAL:=1}"  # Check every 1 second
 
 # Launch with: {command} {{ID}} {{FREQ}} {{TLE}} {{TIMESTAMP}} {{BAUD}} {{SCRIPT_NAME}}
-# /iq/app/satnogs-post 13779045 437550000 '{"tle0": "ISS", "tle1": "1 25544U 98067A   26101.48935997  .00006038  00000-0  11816-3 0  9991", "tle2": "2 25544  51.6326 270.1822 0006432 299.5706  60.4641 15.48873216561413"}' 2026-04-11T20-56-48 64000 satnogs_fsk.py
+# /app/satnogs-post 13779045 437550000 '{"tle0": "ISS", "tle1": "1 25544U 98067A   26101.48935997  .00006038  00000-0  11816-3 0  9991", "tle2": "2 25544  51.6326 270.1822 0006432 299.5706  60.4641 15.48873216561413"}' 2026-04-11T20-56-48 64000 satnogs_fsk.py
 
 ID="$2"      # $2 observation ID
 TLE="$4"     # $4 used tle's
@@ -46,9 +46,11 @@ if [[ " $SSTV_NORAD " =~ .*\ ${NORAD}\ .* && "$SSTV_ENABLE" ]]; then
         echo "[sstv] ✓ SSTV Decoder Start"
         
         SLANT_FACTOR=0
-		if [[ " $NORAD " == "59112" ]]; then
+		if [[ " $NORAD " =~ "59112" ]]; then
 			SLANT_FACTOR=-0.45
 		fi
+		
+		echo "$NORAD, $SLANT_FACTOR" 
 
         cd $SATNOGS_OUTPUT_PATH
         rm -rf sstv.wav
