@@ -46,7 +46,7 @@ if [[ " $SSTV_NORAD " =~ .*\ ${NORAD}\ .* && "$SSTV_ENABLE" ]]; then
         echo "[sstv] ✓ SSTV Decoder Start"
         
         SLANT_FACTOR=0
-		if [[ " $SSTV_NORAD " == "59112" ]]; then
+		if [[ " $NORAD " == "59112" ]]; then
 			SLANT_FACTOR=-0.45
 		fi
 
