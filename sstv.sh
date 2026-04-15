@@ -49,8 +49,6 @@ if [[ " $SSTV_NORAD " =~ .*\ ${NORAD}\ .* && "$SSTV_ENABLE" ]]; then
 		if [[ " $NORAD " =~ "59112" ]]; then
 			SLANT_FACTOR=-0.45
 		fi
-		
-		echo "$NORAD, $SLANT_FACTOR" 
 
         cd $SATNOGS_OUTPUT_PATH
         rm -rf sstv.wav
