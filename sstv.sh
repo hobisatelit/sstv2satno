@@ -20,7 +20,7 @@ set -eu
 : "${SSTV_ENABLE:=true}"
 : "${SSTV_NORAD:= 25544 57172 67290 40931 57180 61762 67291 57189 48274 57203 67279 59112 57190}"
 : "${SATNOGS_OUTPUT_PATH:=/tmp/.satnogs/data}"
-: "${SSTV_APP_DIR:=/app/sstv}"
+: "${SSTV_APP_DIR:=/app/sstv2satno/sstv}"
 : "${MAX_WAIT_TIME:=180}" # Maximum time, script will waiting audio .ogg from satnogs-client. Default: 3 minutes in seconds
 : "${CHECK_INTERVAL:=1}"  # Check every 1 second
 
