@@ -1,7 +1,7 @@
 SSTV Decoder
 ============
 
-![](https://raw.githubusercontent.com/colaclanth/sstv/master/examples/m1.png)
+![](https://community.libre.space/uploads/default/original/3X/e/b/ebcb60fb34f174edcb0812e609366757b33bb9fb.jpeg)
 
 A command line slow-scan television decoder that works on audio files rather than reading a soundcard (like most other decoders).
 Currently supports the following modes:
