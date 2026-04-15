@@ -13,19 +13,7 @@ Installation
 ------------
 
 ```
-$ git clone https://github.com/colaclanth/sstv.git
-
-$ python setup.py install
-```
-
-Usage
------
+$ git clone https://github.com/hobisatelit/sstv2satno.git .
 
 ```
-$ sstv -d audio_file.wav -o result.png
-```
 
-Resources Used
---------------
-
-* SSTV specification/timings - [The Dayton Paper](http://webcache.googleusercontent.com/search?q=cache:GzP65FlYEtwJ:www.barberdsp.com/downloads/Dayton%2520Paper.pdf)
