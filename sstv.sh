@@ -42,7 +42,7 @@ ELAPSED=0
 
 echo "INFO: $ID, Norad: $NORAD, Sat: $SATNAME, Baud: $BAUD, TLE: $TLE" 
 
-if [[ " $SSTV_NORAD " =~ .*\ ${NORAD}\ .* && "$SSTV_ENABLE" ]]; then
+if [[ " $SSTV_NORAD " =~ .*\ ${NORAD}\ .* && ${SSTV_ENABLE,,} == true ]]; then
         echo "[sstv] ✓ SSTV Decoder Start"
         
         SLANT_FACTOR=0
