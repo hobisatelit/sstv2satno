@@ -160,13 +160,73 @@ class R72(R36):
     WINDOW_FACTOR = 4.88
     HAS_ALT_SCAN = False
 
+class PD50(object):
+    """PD50 SSTV mode
+
+    Parameters chosen to produce approximately 50s image duration for 256 lines
+    using 3 color channels (R,G,B). Values follow typical SSTV timing conventions
+    (9ms sync, 1.5ms porch, 1.5ms separator) and compute channel/line timings
+    so LINE_TIME * LINE_COUNT ~= 50s.
+    """
+    NAME = "PD50"
+    COLOR = COL_FMT.RGB
+    LINE_WIDTH = 320
+    LINE_COUNT = 256
+    SYNC_PULSE = 0.009000
+    SYNC_PORCH = 0.001500
+    SEP_PULSE = 0.001500
+    CHAN_COUNT = 3
+    CHAN_SYNC = 0
+    # SCAN_TIME computed so total image ~50s: LINE_TIME = SYNC_PULSE + SYNC_PORCH + 3*(SEP_PULSE+SCAN_TIME)
+    SCAN_TIME = 0.06060417
+    CHAN_TIME = SEP_PULSE + SCAN_TIME
+    CHAN_OFFSETS = [SYNC_PULSE + SYNC_PORCH]
+    CHAN_OFFSETS.append(CHAN_OFFSETS[0] + CHAN_TIME)
+    CHAN_OFFSETS.append(CHAN_OFFSETS[1] + CHAN_TIME)
+    LINE_TIME = SYNC_PULSE + SYNC_PORCH + 3 * CHAN_TIME
+    PIXEL_TIME = SCAN_TIME / LINE_WIDTH
+    WINDOW_FACTOR = 3.0
+    HAS_START_SYNC = True
+    HAS_HALF_SCAN = False
+    HAS_ALT_SCAN = False
+
+class PD90(object):
+    """PD90 SSTV mode
+
+    Parameters chosen to produce approximately 90s image duration for 256 lines
+    using 3 color channels (R,G,B). Timing uses same sync/porch/separator values
+    and larger SCAN_TIME so LINE_TIME * LINE_COUNT ~= 90s.
+    """
+    NAME = "PD90"
+    COLOR = COL_FMT.RGB
+    LINE_WIDTH = 320
+    LINE_COUNT = 256
+    SYNC_PULSE = 0.009000
+    SYNC_PORCH = 0.001500
+    SEP_PULSE = 0.001500
+    CHAN_COUNT = 3
+    CHAN_SYNC = 0
+    SCAN_TIME = 0.11268750
+    CHAN_TIME = SEP_PULSE + SCAN_TIME
+    CHAN_OFFSETS = [SYNC_PULSE + SYNC_PORCH]
+    CHAN_OFFSETS.append(CHAN_OFFSETS[0] + CHAN_TIME)
+    CHAN_OFFSETS.append(CHAN_OFFSETS[1] + CHAN_TIME)
+    LINE_TIME = SYNC_PULSE + SYNC_PORCH + 3 * CHAN_TIME
+    PIXEL_TIME = SCAN_TIME / LINE_WIDTH
+    WINDOW_FACTOR = 3.0
+    HAS_START_SYNC = True
+    HAS_HALF_SCAN = False
+    HAS_ALT_SCAN = False
+
 VIS_MAP = {8: R36,
            12: R72,
            40: M2,
            44: M1,
            56: S2,
            60: S1,
-           76: SDX}
+           76: SDX,
+           104: PD50,
+           108: PD90}
 
 BREAK_OFFSET = 0.300
 LEADER_OFFSET = 0.010 + BREAK_OFFSET
@@ -290,7 +350,7 @@ examples:
             log_message(f"Output_dir: {output_dir}")
             for idx, (img, mode_name) in enumerate(images, 1):
                 formatted_idx = f"{idx:03d}"
-                safe_mode = mode_name.replace(" ", "").replace("-","").lower()
+                safe_mode = mode_name.replace(" ", "").replace("-","" ).lower()
                 base_name = self._output_file.rsplit('.', 1)
 
                 if len(base_name) == 2:
@@ -616,8 +676,7 @@ class SSTVDecoder(object):
 
                 if chan == self.mode.CHAN_SYNC:
                     if line > 0 or chan > 0:
-                        seq_start += round(self.mode.LINE_TIME *
-                                           self._sample_rate)
+                        seq_start += round(self.mode.LINE_TIME * self._sample_rate)
 
                     seq_start = self._align_sync(seq_start)
                     if seq_start is None:
